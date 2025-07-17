@@ -1,0 +1,157 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #fff;
+}
+
+/* === HEADER === */
+#calendarHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 10px;
+  background: skyblue;
+}
+
+#centerControls {
+  text-align: center;
+}
+
+#hourDisplay {
+  margin-bottom: 8px;
+}
+
+/* === CALENDAR GRID === */
+#calendarWrapper {
+  display: flex;
+  justify-content: center;    /* line things up left-to-right */
+  margin: 0 auto ;
+}
+
+#calendar {
+  display: flex;
+  flex-direction: row;
+  min-width: max-content;         /* ensure content doesn't wrap */
+}
+
+#timeColumn, {
+  display: flex;
+  flex-direction: column;
+  background: lightblue;
+  border: 1px solid #333;
+}
+
+#timeColumn .empty {
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  box-sizing: border-box;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.empty{
+	background: cadetblue;
+}
+
+.dayLabel {
+	background: green;
+	height: 70px;
+  line-height: 35px;
+  background: cadetblue;
+  border: 1px solid #333;
+  text-align: center;
+  box-sizing: border-box;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.time-slot {
+  height: 35px;
+  width: 120px;
+  border: 1px solid #333;
+  background: lightblue;
+  text-align: center;
+  line-height: 35px;
+  position: relative;
+  overflow: visible;
+}
+
+.dayColumn {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+/* wrap each day's slots so only that region scrolls vertically */
+.daySlots {
+  max-height: calc(35px * 17); /* e.g. 6am–10pm = ~17 hours * 4 slots */
+}
+
+/* === ENTRIES === */
+.calendarEntry {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: lightgreen;
+  border: 1px solid green;
+  z-index: 1;
+}
+
+.entryHeader {
+	flex: 1 1 auto;
+	margin: 0;
+  border: none;
+  resize: none;
+  overflow-y: auto;
+  background: transparent;
+  font-size: 12px;
+}
+
+.entryNotes {
+  width: 100%;
+  height: calc(100% - 20px);
+  resize: none;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+}
+
+/* === MODALS === */
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 6px;
+  padding: 15px;
+  z-index: 10;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal label {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.modal .modal-controls {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+}

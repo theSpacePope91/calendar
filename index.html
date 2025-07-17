@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Week Calendar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="calendarHeader">
+    <button id="prevBtn">&larr; Previous Week</button>
+    <div id="centerControls">
+      <div id="hourDisplay">Direct Hours: 0.00<br>Indirect Hours: 0.00</div>
+      <button id="addButton">Add Entry</button>
+    </div>
+    <button id="nextBtn">Next Week &rarr;</button>
+  </div>
+
+  <div id="calendarWrapper">
+    <div id="timeColumn"></div>
+    <div id="calendar"></div>
+  </div>
+
+  <!-- Add Modal -->
+  <div id="addModal" class="modal">
+    <form id="addForm">
+      <h3>Add New Entry</h3>
+      <label>Time*:
+        <select id="addTimeSelect"><option value="">Select Time</option></select>
+      </label>
+      <label>Date*:
+        <select id="addDateSelect"><option value="">Select Date</option></select>
+      </label>
+      <div>
+        <label><input type="radio" name="addType" value="Direct"> Direct</label>
+        <label><input type="radio" name="addType" value="Indirect"> Indirect</label>
+        <label><input type="radio" name="addType" value="N/A"> N/A</label>
+      </div>
+      <label>Activity*:
+        <select id="addLabel">
+          <option value="">Select Type</option>
+          <option>Individual Session</option>
+          <option>Group Session</option>
+          <option>Individual Supervision</option>
+          <option>Group Supervision</option>
+        </select>
+      </label>
+      <label>Hours*:
+        <select id="addHours">
+          <option value="">Select Hours</option>
+          <option>0.5</option>
+          <option>1.0</option>
+          <option>1.5</option>
+          <option>2.0</option>
+          <option>18.0</option>
+        </select>
+      </label>
+      <label>Notes:<br>
+        <textarea id="addNotes"></textarea>
+      </label>
+      <div class="modal-controls">
+        <button type="button" id="confirmAdd">Confirm</button>
+        <button type="button" id="cancelAdd">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- View (read-only) Modal -->
+<div id="viewModalContainer">
+  <div id="viewModal" class = "modal">
+    <h3>View Entry</h3>
+    <p><strong>Time:</strong> <span id="viewTime"></span></p>
+    <p><strong>Date:</strong> <span id="viewDate"></span></p>
+    <p><strong>Type:</strong> <span id="viewType"></span></p>
+    <p><strong>Hours:</strong> <span id="viewHours"></span></p>
+    <p><strong>Notes:</strong></p>
+    <div id="viewNotes" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 4px; height: 80px; overflow-y: auto;"></div>
+    <button id="viewEditBtn">Edit Entry</button>
+    <button id="viewCloseBtn">Close</button>
+  </div>
+</div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <form id="editForm">
+      <h3>Edit Entry</h3>
+      <label>Time*:
+        <select id="editTimeSelect"><option value="">Select Time</option></select>
+      </label>
+      <label>Date*:
+        <select id="editDateSelect"><option value="">Select Date</option></select>
+      </label>
+      <div>
+        <label><input type="radio" name="editType" value="Direct"> Direct</label>
+        <label><input type="radio" name="editType" value="Indirect"> Indirect</label>
+        <label><input type="radio" name="editType" value="N/A"> N/A</label>
+      </div>
+      <label>Activity*:
+        <select id="editLabel">
+          <option value="">Select Type</option>
+          <option>Individual Session</option>
+          <option>Group Session</option>
+          <option>Individual Supervision</option>
+          <option>Group Supervision</option>
+        </select>
+      </label>
+      <label>Hours*:
+        <select id="editHours">
+          <option value="">Select Hours</option>
+          <option>0.5</option>
+          <option>1.0</option>
+          <option>1.5</option>
+          <option>2.0</option>
+          <option>18.0</option>
+        </select>
+      </label>
+      <label>Notes:<br>
+        <textarea id="editNotes"></textarea>
+      </label>
+      <div class="modal-controls">
+        <button type="button" id="confirmEdit">Confirm</button>
+        <button type="button" id="cancelEdit">Cancel</button>
+        <button type="button" id="deleteEntry">Delete</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
