@@ -29,23 +29,6 @@ A simple, client-side weekly calendar app built with HTML, CSS, and JavaScript. 
 * Modern web browser (Chrome, Firefox, Edge, Safari)
 * (Optional) A static file server for local testing, e.g., Python's `http.server` or Node's `serve`.
 
-### Installation
-
-1. Clone this repository:
-
-   ```sh
-   git clone https://github.com/your-username/week-calendar-app.git
-   cd week-calendar-app
-   ```
-2. Open `index.html` in your browser, or serve the folder:
-
-   ```sh
-   # Python 3
-   python -m http.server 8000
-
-   # Then visit http://localhost:8000
-   ```
-
 ## Usage
 
 1. **Navigate weeks** using the `Previous Week` and `Next Week` buttons.
@@ -71,10 +54,6 @@ This app can be hosted on any static site hosting service:
 * **Netlify**, **Vercel**, **Firebase Hosting**, etc.
 
 > **Note:** All calendar data is stored per-user in their browser’s localStorage and is not shared between users.
-
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request with improvements.
 
 ## License
 
