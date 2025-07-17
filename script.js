@@ -127,6 +127,21 @@ function calculateTotals(){
     `Direct Hours: ${direct.toFixed(2)}<br>Indirect Hours: ${indirect.toFixed(2)}`;
 }
 
+function calculateYearlyTotals() {
+  let yearDirect = 0,
+      yearIndirect = 0;
+  const all = JSON.parse(localStorage.getItem("calendarEntries") || "[]");
+  all.forEach(({header}) => {
+    const m = header.match(/\((Direct|Indirect),\s*([\d.]+)h\)/);
+    if (m) {
+      if (m[1] === "Direct")   yearDirect   += parseFloat(m[2]);
+      else /*Indirect/N/A*/     yearIndirect += parseFloat(m[2]);
+    }
+  });
+  document.getElementById("yearDisplay").innerHTML =
+    `Year-Direct: ${yearDirect.toFixed(2)}h<br>Year-Indirect: ${yearIndirect.toFixed(2)}h`;
+}
+
 // Helper: find the correct slot div by date+time
 function findSlot(date,time){
   return Array.from(document.querySelectorAll(".time-slot"))
@@ -295,26 +310,31 @@ function editEntry(){
 
 // Wire up everything
 document.addEventListener("DOMContentLoaded", ()=>{
+
+  alert("This is a WIP. Some bugs need fixing.");
   createCalendarGrid();
   populateTimeSelects();
   populateDateSelects();
-  calculateTotals();
   loadEntries();
+  calculateTotals();
+  calculateYearlyTotals();
 
   // header buttons
   document.getElementById("prevBtn").onclick = ()=>{
     startOfWeek.setDate(startOfWeek.getDate()-7);
     createCalendarGrid();
     populateDateSelects();
-    calculateTotals();
     loadEntries();
+    calculateTotals();
+    calculateYearlyTotals();
   };
   document.getElementById("nextBtn").onclick = ()=>{
     startOfWeek.setDate(startOfWeek.getDate()+7);
     createCalendarGrid();
     populateDateSelects();
-    calculateTotals();
     loadEntries();
+    calculateTotals();
+    calculateYearlyTotals();
   };
 
   // Add modal
