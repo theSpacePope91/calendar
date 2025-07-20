@@ -321,18 +321,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // header buttons
   document.getElementById("prevBtn").onclick = ()=>{
-    startOfWeek.setDate(startOfWeek.getDate()-7);
+    loadEntriesFromStorage();
     createCalendarGrid();
+    populateTimeSelects();
     populateDateSelects();
-    loadEntries();
+    loadEntriesOntoCalendar();
     calculateTotals();
     calculateYearlyTotals();
   };
   document.getElementById("nextBtn").onclick = ()=>{
     startOfWeek.setDate(startOfWeek.getDate()+7);
+    loadEntriesFromStorage();
     createCalendarGrid();
+    populateTimeSelects();
     populateDateSelects();
-    loadEntries();
+    loadEntriesOntoCalendar();
     calculateTotals();
     calculateYearlyTotals();
   };
