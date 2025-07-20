@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // header buttons
   document.getElementById("prevBtn").onclick = ()=>{
-    loadEntriesFromStorage();
+    
     createCalendarGrid();
     populateTimeSelects();
     populateDateSelects();
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   };
   document.getElementById("nextBtn").onclick = ()=>{
     startOfWeek.setDate(startOfWeek.getDate()+7);
-    loadEntriesFromStorage();
+    
     createCalendarGrid();
     populateTimeSelects();
     populateDateSelects();
