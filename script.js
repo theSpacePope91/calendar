@@ -6,6 +6,37 @@ const dayIndex = today.getDay();
 const offset = dayIndex===0 ? -6 : 1-dayIndex;
 startOfWeek.setDate(startOfWeek.getDate()+offset);
 
+let savedEntries = [];
+
+function loadEntriesFromStorage(){
+  savedEntries = JSON.parse(localStorage.getItem("calendarEntries")||"[]");
+}
+
+function writeEntriesToStorage(){
+  localStorage.setItem("calendarEntries", JSON.stringify(savedEntries));
+}
+
+function addEntryToStorage(entryData){
+  // entryData = { id, date, time, header, notes, height }
+  savedEntries.push(entryData);
+  writeEntriesToStorage();
+}
+
+function updateEntryInStorage(entryData){
+  const i = savedEntries.findIndex(e=>e.id===entryData.id);
+  if(i>-1) savedEntries[i]=entryData;
+  writeEntriesToStorage();
+}
+
+function removeEntryFromStorage(id){
+  savedEntries = savedEntries.filter(e=>e.id!==id);
+  writeEntriesToStorage();
+}
+
+function loadEntriesOntoCalendar(){
+  savedEntries.forEach(createEntryFromData); 
+}
+
 function formatTime(decimalHour) {
   let hours = Math.floor(decimalHour),
       minutes = (decimalHour%1)*60,
@@ -50,8 +81,8 @@ function createCalendarGrid(){
     col.className="dayColumn";
 
     const blankHeader = document.createElement("div");
-	blankHeader.className = "empty";
-	col.appendChild(blankHeader);
+	  blankHeader.className = "empty";
+	  col.appendChild(blankHeader);
 
     // header label
     const label = document.createElement("div");
@@ -312,46 +343,36 @@ function editEntry(){
 document.addEventListener("DOMContentLoaded", ()=>{
 
   alert("This is a WIP. Some bugs need fixing.");
+  
   createCalendarGrid();
   populateTimeSelects();
   populateDateSelects();
-  loadEntries();
+  loadEntriesOntoCalendar();
   calculateTotals();
   calculateYearlyTotals();
 
+
   // header buttons
-document.getElementById("prevBtn").onclick = () => {
-  // 1) move back 7 days
-  startOfWeek.setDate(startOfWeek.getDate() - 7);
-
-  // 2) rebuild the UI
-  createCalendarGrid();
-  populateTimeSelects();
-  populateDateSelects();
-
-  // 3) reload from storage, if you’re using localStorage...
-  loadEntriesFromStorage();
-  loadEntriesOntoCalendar();
-
-  // 4) recalc your numbers
-  calculateTotals();
-  if (typeof calculateYearlyTotals === "function") {
+  document.getElementById("prevBtn").onclick = ()=>{
+    startOfWeek.setDate(startOfWeek.getDate()-7);
+    
+    createCalendarGrid();
+    populateTimeSelects();
+    populateDateSelects();
+    loadEntriesOntoCalendar();
+    calculateTotals();
     calculateYearlyTotals();
-  }
-};
-
-document.getElementById("nextBtn").onclick = () => {
-  startOfWeek.setDate(startOfWeek.getDate() + 7);
-  createCalendarGrid();
-  populateTimeSelects();
-  populateDateSelects();
-  loadEntriesFromStorage();
-  loadEntriesOntoCalendar();
-  calculateTotals();
-  if (typeof calculateYearlyTotals === "function") {
+  };
+  document.getElementById("nextBtn").onclick = ()=>{
+    startOfWeek.setDate(startOfWeek.getDate()+7);
+    loadEntriesFromStorage();
+    createCalendarGrid();
+    populateTimeSelects();
+    populateDateSelects();
+    loadEntriesOntoCalendar();
+    calculateTotals();
     calculateYearlyTotals();
-  }
-};
+  };
 
   // Add modal
   document.getElementById("addButton").onclick = ()=>{
@@ -365,7 +386,10 @@ document.getElementById("nextBtn").onclick = () => {
     addEntry();
     document.getElementById("addForm").reset();
     document.getElementById("addModal").style.display="none";
-    saveEntries();
+    addEntryToStorage(entryData);
+    createEntryFromData(entryData);
+    calculateTotals();
+    calculateYearlyTotals();
   };
 
   // Edit modal
@@ -378,14 +402,18 @@ document.getElementById("nextBtn").onclick = () => {
     editEntry();
     document.getElementById("editForm").reset();
     document.getElementById("editModal").style.display="none";
-    saveEntries();
+    addEntryToStorage(entryData);
+    createEntryFromData(entryData);
+    calculateTotals();
+    calculateYearlyTotals();
   };
   document.getElementById("deleteEntry").onclick = ()=>{
     if(currentEntry && confirm("Delete this entry?")){
       currentEntry.remove();
       currentEntry = null;
+      removeEntryFromStorage(currentEntry.dataset.id);
       calculateTotals();
-      saveEntries();
+      calculateYearlyTotals();
       document.getElementById("editModal").style.display="none";
     }
   };
