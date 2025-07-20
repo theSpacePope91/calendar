@@ -320,25 +320,38 @@ document.addEventListener("DOMContentLoaded", ()=>{
   calculateYearlyTotals();
 
   // header buttons
-  document.getElementById("prevBtn").onclick = ()=>{
-    
-    createCalendarGrid();
-    populateTimeSelects();
-    populateDateSelects();
-    loadEntriesOntoCalendar();
-    calculateTotals();
+document.getElementById("prevBtn").onclick = () => {
+  // 1) move back 7 days
+  startOfWeek.setDate(startOfWeek.getDate() - 7);
+
+  // 2) rebuild the UI
+  createCalendarGrid();
+  populateTimeSelects();
+  populateDateSelects();
+
+  // 3) reload from storage, if you’re using localStorage...
+  loadEntriesFromStorage();
+  loadEntriesOntoCalendar();
+
+  // 4) recalc your numbers
+  calculateTotals();
+  if (typeof calculateYearlyTotals === "function") {
     calculateYearlyTotals();
-  };
-  document.getElementById("nextBtn").onclick = ()=>{
-    startOfWeek.setDate(startOfWeek.getDate()+7);
-    
-    createCalendarGrid();
-    populateTimeSelects();
-    populateDateSelects();
-    loadEntriesOntoCalendar();
-    calculateTotals();
+  }
+};
+
+document.getElementById("nextBtn").onclick = () => {
+  startOfWeek.setDate(startOfWeek.getDate() + 7);
+  createCalendarGrid();
+  populateTimeSelects();
+  populateDateSelects();
+  loadEntriesFromStorage();
+  loadEntriesOntoCalendar();
+  calculateTotals();
+  if (typeof calculateYearlyTotals === "function") {
     calculateYearlyTotals();
-  };
+  }
+};
 
   // Add modal
   document.getElementById("addButton").onclick = ()=>{
